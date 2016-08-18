@@ -7,12 +7,10 @@ using System.Data.OleDb;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace CSVToDataTableUsingADODotnet
+namespace CSVToDataTableUsingADODotNetBadFilename
 {
     class Program
     {
-        private const string _csvFilename = "AdventureWorksPersonPerson.csv";
-
         public static DataTable GetDataTableFromCSV(string folderPath, string csvFileName)
         {
             DataTable table = new DataTable();
@@ -35,6 +33,8 @@ namespace CSVToDataTableUsingADODotnet
 
             return table;
         }
+
+        private const string _csvFilename = "AdventureWorks.Person.Person.csv";
 
         static void Main(string[] args)
         {

@@ -47,6 +47,11 @@ namespace BarbaricCSVAccess
                 // flaw in code -- any string containing a column will generate an extra column
                 string[] columnValues = rowLine.Split(',');
 
+                if (columnNames.Length != columnValues.Length)
+                {
+                    throw new Exception("Split burned you because there is a comma in the data.");
+                }
+
                 for (int columnIndex = 0; columnIndex < columnValues.Length; columnIndex++)
                 {
                     rowValues[columnIndex] = columnValues[columnIndex];
