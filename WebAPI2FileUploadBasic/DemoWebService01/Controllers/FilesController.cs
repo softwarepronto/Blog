@@ -12,38 +12,29 @@ namespace DemoWebService01.Controllers
 {
     public class FilesController : ApiController
     {
-        public string Post()
+        private const string _fileUploadName = "datafile";
+
+        public int Post()
         {
-            int numberOfFilesUploaded = 0;
-            string folder = HostingEnvironment.MapPath("~/Files/");
+            string serverFolder = HostingEnvironment.MapPath("~/Uploads/");
             HttpFileCollection files = System.Web.HttpContext.Current.Request.Files;
+            HttpPostedFile postedFile = files[_fileUploadName];
 
-            for (int index = 0; index < files.Count; index++)
+            if (postedFile == null)
             {
-                string key = files.GetKey(index);
-                HttpPostedFile postedFile = files[index];
-
-                if (postedFile.ContentLength > 0)
-                {
-                    string destinationFilename = Path.Combine(folder, Path.GetFileName(postedFile.FileName));
-
-                    if (!File.Exists(destinationFilename))
-                    {
-                        postedFile.SaveAs(destinationFilename);
-                        numberOfFilesUploaded = numberOfFilesUploaded + 1;
-                    }
-                }
+                return 0;
             }
 
-            if (numberOfFilesUploaded > 0)
+            string destinationFilename = Path.Combine(serverFolder, Path.GetFileName(postedFile.FileName));
+
+            if (File.Exists(destinationFilename))
             {
-                return numberOfFilesUploaded + " Files Uploaded Successfully";
+                return 0;
             }
 
-            else
-            {
-                return "Upload Failed";
-            }
+            postedFile.SaveAs(destinationFilename);
+
+            return 1;
         }
     }
 }
