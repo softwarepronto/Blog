@@ -1,0 +1,1 @@
+Shirley Manson, Duke Erikson, Steve Marker, Butch Vig
