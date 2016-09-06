@@ -22,49 +22,20 @@ namespace CSharpPython
 
         private static AutoResetEvent[] _allToWaitOn = { _doneHandlingSTDOUT, _doneHandlingSTERR };
 
-        private static int _handleSTDOUTInvokeCount = 0;
-
-        private static int _handleSTDERRInvokeCount = 0;
-
-        private static void WriteProcessNameAndCommandLineArgs(Process process)
-        {
-            string textToWrite = process?.StartInfo?.FileName ?? "process name not available";
-
-            if (!String.IsNullOrEmpty(process?.StartInfo?.Arguments))
-            {
-                textToWrite += " " + process.StartInfo.Arguments;
-            }
-
-            Console.WriteLine(textToWrite);
-        }
-
         private static void HandleSTDERR(
                     object sendingProcess,
                     DataReceivedEventArgs stderr)
         {
-            try
-            {
-                if (String.IsNullOrEmpty(stderr.Data))
-                {
-                    if (_handleSTDERRInvokeCount == 0)
-                    {
-                        WriteProcessNameAndCommandLineArgs((Process)sendingProcess);
-                        Console.WriteLine("No error detected from the process");
-                    }
-                }
-
-                else
-                {
-                    WriteProcessNameAndCommandLineArgs((Process)sendingProcess);
-                    Console.Write("There was an error");
-                    Console.WriteLine(stderr.Data);
-                    _handleSTDERRInvokeCount++;
-                }
-            }
-
-            finally
+            // Empty stream so done handling standard error stream
+            if (String.IsNullOrEmpty(stderr.Data))
             {
                 _doneHandlingSTERR.Set();
+            }
+
+            else
+            {
+                Console.Write("There was an error: ");
+                Console.WriteLine(stderr.Data);
             }
         }
 
@@ -72,28 +43,15 @@ namespace CSharpPython
                     object sendingProcess,
                     DataReceivedEventArgs stdout)
         {
-            try
-            {
-                if (String.IsNullOrEmpty(stdout.Data))
-                {
-                    if (_handleSTDOUTInvokeCount == 0)
-                    {
-                        WriteProcessNameAndCommandLineArgs((Process)sendingProcess);
-                        Console.WriteLine("No output detected from the process");
-                    }
-                }
-
-                else
-                {
-                    WriteProcessNameAndCommandLineArgs((Process)sendingProcess);
-                    Console.WriteLine(stdout.Data);
-                    _handleSTDOUTInvokeCount++;
-                }
-            }
-
-            finally
+            // Empty stream so done handling standard output stream
+            if (String.IsNullOrEmpty(stdout.Data))
             {
                 _doneHandlingSTDOUT.Set();
+            }
+
+            else
+            {
+                Console.WriteLine(stdout.Data);
             }
         }
 
