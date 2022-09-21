@@ -1,4 +1,6 @@
-﻿namespace Twitter.Stream.Demo
+﻿// Licensed to the softwarepronto.com blog under the GNU General Public License.
+
+namespace Twitter.VolumeStream.Models
 {
     public class Data
     {

@@ -1,25 +1,24 @@
-﻿namespace Twitter.Stream.Demo
+﻿namespace Twitter.VolumeStream.Tests.TestUtilities
 {
-    public class TweatArchive
+    public class TweetArchiveWriter
     {
         private string[] tweets;
 
         private ushort count = 0;
 
-        public TweatArchive(ushort numberOfTweets)
+        public TweetArchiveWriter(ushort maxNumberOfTweets)
         {
-            NumberOfTweets = numberOfTweets;
-            tweets = new string[NumberOfTweets];
+            MaxNumberOfTweets = maxNumberOfTweets;
+            tweets = new string[MaxNumberOfTweets];
         }
 
-        public ushort NumberOfTweets { get; } 
-
+        public ushort MaxNumberOfTweets { get; }
 
         public void Add(string tweet)
         {
             tweets[count] = tweet;
             count++;
-            if (NumberOfTweets == count)
+            if (MaxNumberOfTweets == count)
             {
                 var filename = $"Tweets{DateTime.UtcNow.ToString("yyyyMMddhhmmss")}";
                 var filePath = Path.Combine(@"C:\Temp", filename);

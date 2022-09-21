@@ -22,7 +22,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <ProjectReference Include="..\Twitter.VolumeStream\Twitter.VolumeStream.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TweetArchive\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TweetArchive\Tweets20220917092751">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TweetArchive\Tweets20220917093203">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TweetArchive\Tweets20220917093621">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TweetArchive\Tweets20220917094037">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
