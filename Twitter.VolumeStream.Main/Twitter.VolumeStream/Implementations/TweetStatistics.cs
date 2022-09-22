@@ -10,13 +10,15 @@ namespace Twitter.VolumeStream.Implementations
 
         private readonly TopHashtagStatistics _topHashtagStatistics = new TopHashtagStatistics();
 
-        public TweetStatistics()
+        public ulong TotalTweets
         {
+            get
+            {
+                return Interlocked.Read(ref _totalTweets);
+            }
         }
 
-        public ulong TotalTweets => _totalTweets;
-
-        public IEnumerable<string> TopHashtags => throw new NotImplementedException();
+        public IEnumerable<string> TopHashtags => _topHashtagStatistics.TopHashtags;
 
         public void Increment()
         {

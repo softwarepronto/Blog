@@ -4,7 +4,7 @@ namespace Twitter.VolumeStream.Extensions
 {
     public static class IConfigurationBuilderExtensions
     {
-        public static void AddTwitterApiEnvironmentConfiguration(this IConfigurationBuilder configHost)
+        public static void AddTwitterApiConfiguration(this IConfigurationBuilder configHost)
         {
             configHost.AddEnvironmentVariables(prefix: TwitterApiEnvironmentConfiguration.Prefix);
         }

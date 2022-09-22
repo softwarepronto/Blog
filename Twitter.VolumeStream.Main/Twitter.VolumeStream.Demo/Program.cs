@@ -5,16 +5,11 @@ try
     using IHost host = Host.CreateDefaultBuilder(args).ConfigureServices(
         services =>
         {
-            services.AddSingleton<ITwitterApiEnvironmentConfiguration, TwitterApiEnvironmentConfiguration>();
-            services.AddTransient<ITweetClient, TweetClient>();
-            services.AddTransient<ITweetReader, TweetReader>();
-            services.AddTransient<ITweetStatistician, TweetStatistician>();
-            services.AddTransient<ITweetStatistics, TweetStatistics>();
-            services.AddHostedService<TweetStatisticianWorker>();
+            services.AddTwiterApiServices();
         })
         .ConfigureHostConfiguration(configHost =>
         {
-            configHost.AddTwitterApiEnvironmentConfiguration();
+            configHost.AddTwitterApiConfiguration();
         })
         .Build();
 

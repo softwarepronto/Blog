@@ -2,7 +2,7 @@
 
 namespace Twitter.VolumeStream.Implementations
 {
-    public class TopHashtagStatistics
+    public class TopHashtagStatistics : ITopHashtagStatistics
     {
         private const ushort TopHashtagCount = 10;
 
