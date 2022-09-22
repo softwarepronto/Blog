@@ -1,35 +1,46 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using Twitter.VolumeStream.Interfaces;
+﻿// Licensed to the softwarepronto.com blog under the GNU General Public License.
 
 namespace Twitter.VolumeStream.Implementations
 {
     public class TweetClient : ITweetClient
     {
-        private const string twitterTweetsStreamUrlV2 = @"https://api.twitter.com/2/tweets/sample/stream?tweet.fields=entities,created_at";
+        private const string TwitterTweetsStreamUrlV2 = @"https://api.twitter.com/2/tweets/sample/stream?tweet.fields=entities,created_at";
 
-        private readonly ITwitterApiEnvironmentConfiguration _twitterConfiguration;
+        private readonly ILogger<TweetClient> _logger;
 
-        public TweetClient(ITwitterApiEnvironmentConfiguration twitterConfiguration)
+        private readonly IServiceProvider _serviceProvider;
+
+        private readonly ITwitterApiEnvironmentConfiguration _twitterApiEnvironmentConfiguration;
+
+        public TweetClient(
+                ILogger<TweetClient> logger,
+                IServiceProvider serviceProvider,
+                ITwitterApiEnvironmentConfiguration twitterApiEnvironmentConfiguration)
         {
-            _twitterConfiguration = twitterConfiguration;
+            _logger = logger;
+            _serviceProvider = serviceProvider;
+            _twitterApiEnvironmentConfiguration = twitterApiEnvironmentConfiguration;
         }
 
         public async Task<ITweetReader> GetAsync()
         {
-            var bearerToken = _twitterConfiguration.BearerToken;
+            var bearerToken = _twitterApiEnvironmentConfiguration.BearerToken;
 
             if (bearerToken == null)
             {
-                throw new Exception("Twitter API bearer token not set.");
+                throw new Exception($"Twitter API bearer token not set.");
             }
 
             HttpClientExtensions.Client.AssignBearerToken(bearerToken);
 
-            var response = await HttpClientExtensions.Client.GetAsync(twitterTweetsStreamUrlV2, HttpCompletionOption.ResponseHeadersRead);
+            var response = await HttpClientExtensions.Client.GetAsync(TwitterTweetsStreamUrlV2, HttpCompletionOption.ResponseHeadersRead);
 
             response.EnsureSuccessStatusCode();
 
-            return new TweetReader(await response.Content.ReadAsStreamAsync());
-        }      
+            return (ITweetReader)ActivatorUtilities.CreateInstance(
+                _serviceProvider,
+                typeof(TweetReader),
+                await response.Content.ReadAsStreamAsync());
+        }
     }
 }

@@ -1,53 +1,51 @@
-﻿namespace Twitter.VolumeStream.Implementations
-{
+﻿// Licensed to the softwarepronto.com blog under the GNU General Public License.
 
+namespace Twitter.VolumeStream.Implementations
+{
     public class TweetStatistics : ITweetStatistics
     {
-        private readonly ITweetClient _tweetClient;
+        private ushort TopHashtagCount = 10;
 
-        public TweetStatistics(ITweetClient tweetClient)
+        private ulong _totalTweets = 0UL;
+
+        private ulong _leastMostPopularHashtagCount = 0UL;
+
+        private readonly Dictionary<string, ulong> _hashTagCounts = new Dictionary<string, ulong>();
+
+        private readonly Dictionary<string, ulong> _topHashTags = new Dictionary<string, ulong>();
+
+        public ulong TotalTweets => _totalTweets;
+
+        public IEnumerable<string> TopHashtags => throw new NotImplementedException();
+
+        public void Add()
         {
-            _tweetClient = tweetClient;
+            Interlocked.Increment(ref _totalTweets);
         }
 
-        public async Task GenerateAsync()
+        public void Add(string[] hashtags)
         {
-            var hashtags = new StringBuilder();
-            using var tweetReader = await _tweetClient.GetAsync();
-            
-            for (var count = 0; count < 50; count++)
-            {
-                var tweetJson = await tweetReader.ReadLineAsync();
+            var currentHashtagCount = 0UL;
 
-                if (string.IsNullOrEmpty(tweetJson))
+            Add();
+            foreach (var hashtag in hashtags)
+            {
+                if (_hashTagCounts.ContainsKey(hashtag))
                 {
-                    continue;
+                    currentHashtagCount = ++_hashTagCounts[hashtag];
                 }
 
-                if (tweetJson.Contains("\"hashtags\":"))
+                else
                 {
-                    var root = JsonSerializer.Deserialize<Root>((string)tweetJson);
+                    _hashTagCounts.Add(hashtag, 1);
+                    currentHashtagCount = 1;
+                }
 
-                    if (root == null)
-                    {
-                        continue; // warning
-                    }
+                if (currentHashtagCount > _leastMostPopularHashtagCount)
+                {
 
-                    hashtags.Clear();
-                    foreach (var hashtag in root.data.entities.hashtags)
-                    {
-                        if (hashtags.Length > 0)
-                        {
-                            hashtags.Append(" ");
-                        }
-
-                        hashtags.Append(hashtag.tag);
-                    }
-
-                    Console.WriteLine($"{count}: {hashtags}");
                 }
             }
-
         }
     }
 }

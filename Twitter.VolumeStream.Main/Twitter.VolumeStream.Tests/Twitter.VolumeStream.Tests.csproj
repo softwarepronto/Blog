@@ -26,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Implementations\" />
     <Folder Include="TweetArchive\" />
   </ItemGroup>
 

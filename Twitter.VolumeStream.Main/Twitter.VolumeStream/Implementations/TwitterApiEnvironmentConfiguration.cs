@@ -6,12 +6,17 @@ namespace Twitter.VolumeStream.Implementations
     {
         public const string Prefix = "TWITTER_API_";
 
+        private readonly ILogger<TwitterApiEnvironmentConfiguration> _logger;
+
         public string BearerTokenName => Prefix + "BEARER_TOKEN";
 
         private readonly IConfiguration _configuration;
 
-        public TwitterApiEnvironmentConfiguration(IConfiguration configuration)
+        public TwitterApiEnvironmentConfiguration(
+                    ILogger<TwitterApiEnvironmentConfiguration> logger,
+                    IConfiguration configuration)
         {
+            _logger = logger;
             _configuration = configuration;
         }
 

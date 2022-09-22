@@ -2,8 +2,8 @@
 
 namespace Twitter.VolumeStream.Interfaces
 {
-    public interface ITweetReader : IDisposable
+    public interface ITweetStatistician
     {
-        Task<string?> ReadLineAsync();
+        Task GenerateAsync(CancellationToken stoppingToken);
     }
 }

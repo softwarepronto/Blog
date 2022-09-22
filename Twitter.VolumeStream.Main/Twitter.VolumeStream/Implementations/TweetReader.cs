@@ -1,4 +1,6 @@
-﻿namespace Twitter.VolumeStream.Implementations
+﻿// Licensed to the softwarepronto.com blog under the GNU General Public License.
+
+namespace Twitter.VolumeStream.Implementations
 {
     public class TweetReader : ITweetReader
     {
@@ -8,8 +10,11 @@
 
         private bool _disposedValue;
 
-        public TweetReader(Stream stream)
+        private readonly ILogger<TweetReader> _logger;
+
+        public TweetReader(ILogger<TweetReader> logger, Stream stream)
         {
+            _logger = logger;
             _disposedValue = false;
             _stream = stream;
             _streamReader = new StreamReader(_stream);
@@ -18,7 +23,7 @@
 
         public async Task<string?> ReadLineAsync()
         {
-            return await _streamReader.ReadLineAsync();
+            return await _streamReader!.ReadLineAsync();
         }
 
         protected virtual void Dispose(bool disposing)

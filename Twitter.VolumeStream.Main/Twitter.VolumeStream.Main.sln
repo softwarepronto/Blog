@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F79F1CD7-DC91-4EE6-9E95-442B742465EB}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Coding Challenge Updated for JHA SW Dev Roles.pdf = Coding Challenge Updated for JHA SW Dev Roles.pdf
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject

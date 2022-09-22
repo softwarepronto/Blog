@@ -8,7 +8,9 @@ try
             services.AddSingleton<ITwitterApiEnvironmentConfiguration, TwitterApiEnvironmentConfiguration>();
             services.AddTransient<ITweetClient, TweetClient>();
             services.AddTransient<ITweetReader, TweetReader>();
+            services.AddTransient<ITweetStatistician, TweetStatistician>();
             services.AddTransient<ITweetStatistics, TweetStatistics>();
+            services.AddHostedService<TweetStatisticianWorker>();
         })
         .ConfigureHostConfiguration(configHost =>
         {
@@ -16,9 +18,6 @@ try
         })
         .Build();
 
-    var tweetStatistics = host.Services.GetService<ITweetStatistics>();
-
-    await tweetStatistics.GenerateAsync();
     await host.RunAsync();
 }
 
@@ -26,5 +25,3 @@ catch (Exception ex)
 {
     Console.Error.WriteLine($"{ex}");
 }
-
-return;
