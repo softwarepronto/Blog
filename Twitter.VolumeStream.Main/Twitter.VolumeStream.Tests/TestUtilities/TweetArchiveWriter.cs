@@ -1,4 +1,6 @@
-﻿namespace Twitter.VolumeStream.Tests.TestUtilities
+﻿// Licensed to the softwarepronto.com blog under the GNU General Public License.
+
+namespace Twitter.VolumeStream.Tests.TestUtilities
 {
     public class TweetArchiveWriter
     {
@@ -21,6 +23,7 @@
             if (MaxNumberOfTweets == count)
             {
                 var filename = $"Tweets{DateTime.UtcNow.ToString("yyyyMMddhhmmss")}";
+                // jdn fix
                 var filePath = Path.Combine(@"C:\Temp", filename);
 
                 File.WriteAllLines(filePath, tweets);

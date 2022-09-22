@@ -18,9 +18,22 @@ namespace Twitter.VolumeStream.Models
 
     public class Hashtag
     {
+        private string? _tag;
+
         public int start { get; set; }
         public int end { get; set; }
-        public string tag { get; set; }
+        public string tag
+        {
+            get
+            {
+                return _tag;
+            }
+
+            set
+            {
+                _tag = value.ToLower();
+            }
+        }
     }
 
     public class Mention

@@ -8,8 +8,8 @@ namespace Twitter.VolumeStream.Interfaces
 
         IEnumerable<string> TopHashtags { get; }
 
-        void Add();
+        void Increment();
 
-        void Add(string[] hashtags);
+        void Increment(string[] hashtags);
     }
 }

@@ -1,3 +1,5 @@
+﻿// Licensed to the softwarepronto.com blog under the GNU General Public License.
+
 namespace Twitter.VolumeStream.Tests.TestUtilities
 {
     public class TweetArchiveTests
@@ -13,8 +15,6 @@ namespace Twitter.VolumeStream.Tests.TestUtilities
 
                 Console.WriteLine(tweetJson);
             }
-
-            return;
         }
     }
 }

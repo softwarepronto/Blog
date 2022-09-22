@@ -4,30 +4,30 @@ namespace Twitter.VolumeStream.Implementations
 {
     public class TweetStatistics : ITweetStatistics
     {
-        private ushort TopHashtagCount = 10;
-
         private ulong _totalTweets = 0UL;
-
-        private ulong _leastMostPopularHashtagCount = 0UL;
 
         private readonly Dictionary<string, ulong> _hashTagCounts = new Dictionary<string, ulong>();
 
-        private readonly Dictionary<string, ulong> _topHashTags = new Dictionary<string, ulong>();
+        private readonly TopHashtagStatistics _topHashtagStatistics = new TopHashtagStatistics();
+
+        public TweetStatistics()
+        {
+        }
 
         public ulong TotalTweets => _totalTweets;
 
         public IEnumerable<string> TopHashtags => throw new NotImplementedException();
 
-        public void Add()
+        public void Increment()
         {
             Interlocked.Increment(ref _totalTweets);
         }
 
-        public void Add(string[] hashtags)
+        public void Increment(string[] hashtags)
         {
             var currentHashtagCount = 0UL;
 
-            Add();
+            Increment();
             foreach (var hashtag in hashtags)
             {
                 if (_hashTagCounts.ContainsKey(hashtag))
@@ -41,10 +41,7 @@ namespace Twitter.VolumeStream.Implementations
                     currentHashtagCount = 1;
                 }
 
-                if (currentHashtagCount > _leastMostPopularHashtagCount)
-                {
-
-                }
+                _topHashtagStatistics.Add(hashtag, currentHashtagCount);
             }
         }
     }

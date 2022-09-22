@@ -6,6 +6,7 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
 global using System;
+global using System.Linq;
 global using System.Net.Http;
 global using System.Net.Http.Headers;
 global using System.Text;

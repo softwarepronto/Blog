@@ -1,4 +1,6 @@
-﻿namespace Twitter.VolumeStream.Tests.TestUtilities
+﻿// Licensed to the softwarepronto.com blog under the GNU General Public License.
+
+namespace Twitter.VolumeStream.Tests.TestUtilities
 {
     public class TweetArchiveReader : TweatArchive, ITweetReader
     {
@@ -26,13 +28,13 @@
         {
             var filePath = Path.Combine(TweetArchiveFolderPath, Tweets20220917092751);
 
-            _disposedValue = false; 
+            _disposedValue = false;
             _streamReader = new StreamReader(filePath);
         }
 
         public async Task<string?> ReadLineAsync()
         {
-            return await _streamReader.ReadLineAsync();
+            return await _streamReader!.ReadLineAsync();
         }
 
         protected virtual void Dispose(bool disposing)
