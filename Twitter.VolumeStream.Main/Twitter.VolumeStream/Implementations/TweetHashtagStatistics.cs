@@ -8,7 +8,7 @@ namespace Twitter.VolumeStream.Implementations
 
         private readonly ILogger<TweetHashtagStatistics> _logger;
 
-        private readonly HashtagStatistics[] _topHashtagStatistics = new HashtagStatistics[TopHashtagCount];
+        private readonly HashtagCount[] _topHashtagStatistics = new HashtagCount[TopHashtagCount];
 
         private string[] _topHashTags = new string[0];
 
@@ -31,7 +31,7 @@ namespace Twitter.VolumeStream.Implementations
             }
         }
 
-        private bool AttemptUpdate(string hashtag, ulong count)
+        private bool AttemptUpdateExisting(string hashtag, ulong count)
         {
             foreach (var hashtagStatistics in _topHashtagStatistics)
             {
@@ -44,7 +44,7 @@ namespace Twitter.VolumeStream.Implementations
                 {
                     if (count < hashtagStatistics.Count)
                     {
-                        throw new ArgumentException($"Hasttag ({hashtag}) count ({hashtagStatistics.Count} cannot decrease ({count})");
+                        throw new ArgumentException($"Hashtag ({hashtag}) count ({hashtagStatistics.Count} cannot decrease ({count})");
                     }
 
                     hashtagStatistics.Update(count);
@@ -68,42 +68,45 @@ namespace Twitter.VolumeStream.Implementations
                 return;
             }
 
-            if (AttemptUpdate(hashtag, count))
+            if (AttemptUpdateExisting(hashtag, count))
             {
                 UpadateLeastMostPopularHashtagCount();
-
-                return;
             }
 
-
-            if (_topHashTags.Length == TopHashtagCount)
+            else
             {
-
-                // for (var i = 0; i < _topHashtagStatistics.Length; i++)
-                // {
-                //    if (topHashTagStatistics.Count < count)
-                //    {
-                //        // could overwrite yourself or someone else and have two of the same
-                //        topHashTagStatistics.Overwrite();
-                //    }
-                //}
-            }
-
-            else // Initiaizing (_topHashTags.Length < TopHashtagCount)
-            {
-                var nextTopHashtags = new string[_topHashTags.Length + 1];
-
-                _topHashtagStatistics[_topHashTags.Length] = new HashtagStatistics(hashtag, count);
-                for (var i = 0; i < _topHashTags.Length; i++)
-                {
-                    nextTopHashtags[i] = _topHashTags[i];
-                }
-
-                nextTopHashtags[_topHashTags.Length] = hashtag;
-                Interlocked.Exchange<string[]>(ref _topHashTags, nextTopHashtags);
                 if (_topHashTags.Length == TopHashtagCount)
                 {
-                    _leastMostPopularHashtagCount = _topHashtagStatistics.Min(hs => hs.Count);
+                    for (var i = 0; i < _topHashTags.Length; i++)
+                    {
+                        var hashtagCount = _topHashtagStatistics[i];
+
+                        if (hashtagCount.Count == _leastMostPopularHashtagCount)
+                        {
+                            hashtagCount.Overwrite(hashtag, count);
+                            Interlocked.Exchange(ref _topHashTags[i], hashtag);
+                        }
+                    }
+
+                    UpadateLeastMostPopularHashtagCount();
+                }
+
+                else // Initiaizing (_topHashTags.Length < TopHashtagCount)
+                {
+                    var nextTopHashtags = new string[_topHashTags.Length + 1];
+
+                    _topHashtagStatistics[_topHashTags.Length] = new HashtagCount(hashtag, count);
+                    for (var i = 0; i < _topHashTags.Length; i++)
+                    {
+                        nextTopHashtags[i] = _topHashTags[i];
+                    }
+
+                    nextTopHashtags[_topHashTags.Length] = hashtag;
+                    Interlocked.Exchange<string[]>(ref _topHashTags, nextTopHashtags);
+                    if (_topHashTags.Length == TopHashtagCount)
+                    {
+                        UpadateLeastMostPopularHashtagCount();
+                    }
                 }
             }
         }

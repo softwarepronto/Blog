@@ -12,3 +12,5 @@ The .editorconfig to enforce a coding style was downloaded from the
 # ToDo
 
 * Remove System.Text.Json NuGet package from Demo
+* Timeout on read -- environment variable
+* URL to Config

@@ -2,7 +2,7 @@
 
 namespace Twitter.VolumeStream.Tests.Models
 {
-    public class HashtagStatisticsTests
+    public class HashtagCountTests
     {
         private const ulong IncrementTestCountMax = 10;
 
@@ -14,7 +14,7 @@ namespace Twitter.VolumeStream.Tests.Models
 
             foreach (var hashtag in hasttags)
             {
-                var hashtagStats = new HashtagStatistics(hashtag);
+                var hashtagStats = new HashtagCount(hashtag);
 
                 for (var i = 1ul; i <= IncrementTestCountMax; i++)
                 {
@@ -24,7 +24,7 @@ namespace Twitter.VolumeStream.Tests.Models
                 }
 
                 Assert.Equal(hashtag, hashtagStats.Hashtag);
-                Assert.Equal(IncrementTestCountMax, hashtagStats.Count + 1ul);
+                Assert.Equal(IncrementTestCountMax + 1ul, hashtagStats.Count);
             }
         }
     }

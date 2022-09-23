@@ -3,19 +3,19 @@
 namespace Twitter.VolumeStream.Models
 {
     // jdn more tests -- how many construtors do you need
-    public class HashtagStatistics
+    public class HashtagCount
     {
         private ulong _count;
 
         private string _hashtag;
 
-        public HashtagStatistics(string hashtag)
+        public HashtagCount(string hashtag)
         {
             _hashtag = hashtag;
             _count = 1;
         }
 
-        public HashtagStatistics(string hashtag, ulong count)
+        public HashtagCount(string hashtag, ulong count)
         {
             _hashtag = hashtag;
             _count = count;
