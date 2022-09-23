@@ -4,7 +4,7 @@ namespace Twitter.VolumeStream.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static void AddTwiterApiServices(this IServiceCollection services)
+        public static void AddTwitterApiServices(this IServiceCollection services)
         {
             services.AddSingleton<ITwitterApiEnvironmentConfiguration, TwitterApiEnvironmentConfiguration>();
             services.AddTransient<ITweetClient, TweetClient>();
@@ -14,5 +14,11 @@ namespace Twitter.VolumeStream.Extensions
             services.AddTransient<ITweetStatistics, TweetStatistics>();
             services.AddHostedService<TweetStatisticianWorker>();
         }
+
+        public static void AddTwitterApiLogging(this IServiceCollection services)
+        {
+            services.AddLogging(configure => configure.AddConsole());
+        }
+
     }
 }

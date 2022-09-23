@@ -23,8 +23,8 @@ namespace Twitter.VolumeStream.Tests.Models
                     hashtagStats.Increment();
                 }
 
-                Assert.Equal(hashtagStats.Hashtag, hashtag);
-                Assert.Equal(hashtagStats.Count + 1ul, IncrementTestCountMax);
+                Assert.Equal(hashtag, hashtagStats.Hashtag);
+                Assert.Equal(IncrementTestCountMax, hashtagStats.Count + 1ul);
             }
         }
     }

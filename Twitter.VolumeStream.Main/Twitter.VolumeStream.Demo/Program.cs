@@ -2,14 +2,19 @@
 
 try
 {
-    using IHost host = Host.CreateDefaultBuilder(args).ConfigureServices(
+    using var host = Host.CreateDefaultBuilder(args).ConfigureServices(
         services =>
         {
-            services.AddTwiterApiServices();
+            services.AddTwitterApiServices();
+            services.AddTwitterApiLogging();
         })
-        .ConfigureHostConfiguration(configHost =>
+        .ConfigureHostConfiguration(configurationHost =>
         {
-            configHost.AddTwitterApiConfiguration();
+            configurationHost.AddTwitterApiHostConfiguration();
+        })
+        .ConfigureAppConfiguration((hostingContext, configurationApp) =>
+        {
+            hostingContext.AddTwitterApiAppConfiguration(configurationApp);
         })
         .Build();
 
@@ -18,5 +23,5 @@ try
 
 catch (Exception ex)
 {
-    Console.Error.WriteLine($"{ex}");
+    Console.WriteLine($"{ex}");
 }

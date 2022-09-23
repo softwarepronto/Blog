@@ -14,6 +14,12 @@ namespace Twitter.VolumeStream.Tests.TestUtilities
                 var uri = new UriBuilder(codeBase);
                 var path = Uri.UnescapeDataString(uri.Path);
 
+                if (path == null)
+                {
+                    throw new NullException(
+                        $"Null returned by Uri.UnescapeDataString({uri.Path})");
+                }
+
                 return Path.GetDirectoryName(path);
             }
         }

@@ -1,10 +1,12 @@
 ﻿// Licensed to the softwarepronto.com blog under the GNU General Public License.
 
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
 namespace Twitter.VolumeStream.Extensions
 {
     public static class IConfigurationBuilderExtensions
     {
-        public static void AddTwitterApiConfiguration(this IConfigurationBuilder configHost)
+        public static void AddTwitterApiHostConfiguration(this IConfigurationBuilder configHost)
         {
             configHost.AddEnvironmentVariables(prefix: TwitterApiEnvironmentConfiguration.Prefix);
         }

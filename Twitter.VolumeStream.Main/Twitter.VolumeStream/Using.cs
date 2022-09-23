@@ -5,6 +5,7 @@ global using Microsoft.Extensions.Configuration.EnvironmentVariables;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Logging.Console;
 global using System;
 global using System.Linq;
 global using System.Net.Http;
