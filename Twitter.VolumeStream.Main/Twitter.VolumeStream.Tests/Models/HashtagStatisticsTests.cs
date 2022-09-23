@@ -2,7 +2,7 @@
 
 namespace Twitter.VolumeStream.Tests.Models
 {
-    public class HasttagStatsTests
+    public class HashtagStatisticsTests
     {
         private const ulong IncrementTestCountMax = 10;
 

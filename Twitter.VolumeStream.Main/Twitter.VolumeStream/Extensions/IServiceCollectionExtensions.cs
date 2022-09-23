@@ -9,7 +9,7 @@ namespace Twitter.VolumeStream.Extensions
             services.AddSingleton<ITwitterApiEnvironmentConfiguration, TwitterApiEnvironmentConfiguration>();
             services.AddTransient<ITweetClient, TweetClient>();
             services.AddTransient<ITweetReader, TweetReader>();
-            services.AddTransient<ITopHashtagStatistics, TopHashtagStatistics>();
+            services.AddTransient<ITweetHashtagStatistics, TweetHashtagStatistics>();
             services.AddTransient<ITweetStatistician, TweetStatistician>();
             services.AddTransient<ITweetStatistics, TweetStatistics>();
             services.AddHostedService<TweetStatisticianWorker>();

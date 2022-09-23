@@ -8,7 +8,15 @@ namespace Twitter.VolumeStream.Implementations
 
         private readonly Dictionary<string, ulong> _hashTagCounts = new Dictionary<string, ulong>();
 
-        private readonly TopHashtagStatistics _topHashtagStatistics = new TopHashtagStatistics();
+        private readonly TweetHashtagStatistics _topHashtagStatistics;
+
+        private readonly Logger<TweetStatistics> _logger;
+
+        public TweetStatistics(Logger<TweetStatistics> logger, IServiceProvider services)
+        {
+            _logger = logger;
+            _topHashtagStatistics = services.GetRequiredService<TweetHashtagStatistics>();
+        }
 
         public ulong TotalTweets
         {

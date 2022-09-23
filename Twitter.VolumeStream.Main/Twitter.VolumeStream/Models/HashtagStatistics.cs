@@ -7,25 +7,32 @@ namespace Twitter.VolumeStream.Models
     {
         private ulong _count;
 
+        private string _hashtag;
+
         public HashtagStatistics(string hashtag)
         {
-            Hashtag = hashtag;
+            _hashtag = hashtag;
             _count = 1;
         }
 
         public HashtagStatistics(string hashtag, ulong count)
         {
-            Hashtag = hashtag;
+            _hashtag = hashtag;
             _count = count;
         }
 
         public void Overwrite(string hashtag, ulong count)
         {
-            Hashtag = hashtag;
-            _count = count;
+            Interlocked.Exchange(ref _count, count);
+            Interlocked.Exchange(ref _hashtag, hashtag);
         }
 
-        public string Hashtag { get; private set; }
+        public void Update(ulong count)
+        {
+            Interlocked.Exchange(ref _count, count);
+        }
+
+        public string Hashtag => _hashtag;
 
         public ulong Count => _count;
 
