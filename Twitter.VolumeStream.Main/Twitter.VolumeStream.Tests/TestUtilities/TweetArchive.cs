@@ -20,7 +20,15 @@ namespace Twitter.VolumeStream.Tests.TestUtilities
                         $"Null returned by Uri.UnescapeDataString({uri.Path})");
                 }
 
-                return Path.GetDirectoryName(path);
+                var assemblyDirectory = Path.GetDirectoryName(path);
+
+                if (assemblyDirectory == null)
+                {
+                    throw new NullException(
+                        $"Null returned by Path.GetDirectoryName({path})");
+                }
+
+                return assemblyDirectory;
             }
         }
 

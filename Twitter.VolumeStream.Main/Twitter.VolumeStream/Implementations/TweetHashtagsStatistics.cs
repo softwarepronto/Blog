@@ -2,11 +2,11 @@
 
 namespace Twitter.VolumeStream.Implementations
 {
-    public class TweetHashtagStatistics : ITweetHashtagStatistics
+    public class TweetHashtagsStatistics : ITweetHashtagsStatistics
     {
         private const ushort TopHashtagCount = 10;
 
-        private readonly ILogger<TweetHashtagStatistics> _logger;
+        private readonly ILogger<TweetHashtagsStatistics> _logger;
 
         private readonly HashtagCount[] _topHashtagStatistics = new HashtagCount[TopHashtagCount];
 
@@ -14,7 +14,7 @@ namespace Twitter.VolumeStream.Implementations
 
         private ulong _leastMostPopularHashtagCount = 0UL;
 
-        public TweetHashtagStatistics(ILogger<TweetHashtagStatistics> logger)
+        public TweetHashtagsStatistics(ILogger<TweetHashtagsStatistics> logger)
         {
             _logger = logger;
         }

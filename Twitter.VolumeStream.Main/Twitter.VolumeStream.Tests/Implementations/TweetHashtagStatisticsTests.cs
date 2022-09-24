@@ -4,8 +4,8 @@ namespace Twitter.VolumeStream.Tests.Implementations
 {
     public class TweetHashtagStatisticsTests
     {
-        private readonly Mock<ILogger<TweetHashtagStatistics>> _loggerTweetHashtagStatistics =
-                                new Mock<ILogger<TweetHashtagStatistics>>();
+        private readonly Mock<ILogger<TweetHashtagsStatistics>> _loggerTweetHashtagStatistics =
+                                new Mock<ILogger<TweetHashtagsStatistics>>();
 
         [Fact]
         public void AddOneTweetTest()
@@ -13,7 +13,7 @@ namespace Twitter.VolumeStream.Tests.Implementations
             const int MaxNumberOfHashtagInstances = 50;
             var hashtag = "buddy_holly";
             var tweetHashtagStatistics =
-                        new TweetHashtagStatistics(_loggerTweetHashtagStatistics.Object);
+                        new TweetHashtagsStatistics(_loggerTweetHashtagStatistics.Object);
 
             Assert.Empty(tweetHashtagStatistics.TopHashtags);
             for (var count = 1; count <= MaxNumberOfHashtagInstances; count++)
@@ -24,12 +24,12 @@ namespace Twitter.VolumeStream.Tests.Implementations
         }
 
         [Fact]
-        public void AddTenTweetsTest()
+        public void AddMultipleTweetsTest()
         {
             const int MaxNumberOfHashtagInstances = 50;
             var hashtags = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" };
             var tweetHashtagStatistics =
-                        new TweetHashtagStatistics(_loggerTweetHashtagStatistics.Object);
+                        new TweetHashtagsStatistics(_loggerTweetHashtagStatistics.Object);
 
             Assert.Empty(tweetHashtagStatistics.TopHashtags);
             for (var count = 1; count <= MaxNumberOfHashtagInstances; count++)
@@ -45,11 +45,6 @@ namespace Twitter.VolumeStream.Tests.Implementations
 
             for (var count = 1; count <= (2 * MaxNumberOfHashtagInstances); count++)
             {
-                if (count == (MaxNumberOfHashtagInstances + 1))
-                {
-                    Assert.DoesNotContain(bumpHashtag, tweetHashtagStatistics.TopHashtags);
-                }
-
                 tweetHashtagStatistics.Add(bumpHashtag, (ulong)count);
                 if (count > MaxNumberOfHashtagInstances)
                 {
@@ -59,6 +54,46 @@ namespace Twitter.VolumeStream.Tests.Implementations
                 else
                 {
                     Assert.DoesNotContain(bumpHashtag, tweetHashtagStatistics.TopHashtags);
+                }
+            }
+        }
+
+        [Fact]
+        public void AddMultipleTweetsReplaceTweeksTest()
+        {
+            const int MaxNumberOfHashtagInstances = 50;
+            var hashtags = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" };
+            var tweetHashtagStatistics =
+                        new TweetHashtagsStatistics(_loggerTweetHashtagStatistics.Object);
+
+            Assert.Empty(tweetHashtagStatistics.TopHashtags);
+            for (var count = 1; count <= MaxNumberOfHashtagInstances; count++)
+            {
+                foreach (var hashtag in hashtags)
+                {
+                    tweetHashtagStatistics.Add(hashtag, (ulong)count);
+                    Assert.Contains(hashtag, tweetHashtagStatistics.TopHashtags);
+                }
+            }
+
+            var replaceHashtags = new string[] { "k", "l", "m", "n", "o", "p", "q", "r", "s", "t" };
+
+            for (var replacementHashtagsCount = 0; replacementHashtagsCount < replaceHashtags.Length; replacementHashtagsCount++)
+            {
+                var replaceHashtag = replaceHashtags[replacementHashtagsCount];
+
+                for (var count = 1; count <= (2 * MaxNumberOfHashtagInstances); count++)
+                {
+                    tweetHashtagStatistics.Add(replaceHashtag, (ulong)count);
+                    if (count > MaxNumberOfHashtagInstances)
+                    {
+                        Assert.Contains(replaceHashtag, tweetHashtagStatistics.TopHashtags);
+                    }
+
+                    else
+                    {
+                        Assert.DoesNotContain(replaceHashtag, tweetHashtagStatistics.TopHashtags);
+                    }
                 }
             }
         }

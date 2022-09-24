@@ -10,7 +10,5 @@ The .editorconfig to enforce a coding style was downloaded from the
 [dotnet/roslyn](https://github.com/dotnet/roslyn/blob/main/.editorconfig) project.
 
 # ToDo
-
-* Remove System.Text.Json NuGet package from Demo
-* Timeout on read -- environment variable
+b* Timeout on read -- environment variable
 * URL to Config

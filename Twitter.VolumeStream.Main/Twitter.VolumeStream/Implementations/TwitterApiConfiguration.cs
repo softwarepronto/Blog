@@ -2,18 +2,18 @@
 
 namespace Twitter.VolumeStream.Implementations
 {
-    public class TwitterApiEnvironmentConfiguration : ITwitterApiEnvironmentConfiguration
+    public class TwitterApiConfiguration : ITwitterApiConfiguration
     {
         public const string Prefix = "TWITTER_API_";
 
-        private readonly ILogger<TwitterApiEnvironmentConfiguration> _logger;
+        private readonly ILogger<TwitterApiConfiguration> _logger;
 
         public string BearerTokenName => Prefix + "BEARER_TOKEN";
 
         private readonly IConfiguration _configuration;
 
-        public TwitterApiEnvironmentConfiguration(
-                    ILogger<TwitterApiEnvironmentConfiguration> logger,
+        public TwitterApiConfiguration(
+                    ILogger<TwitterApiConfiguration> logger,
                     IConfiguration configuration)
         {
             _logger = logger;
@@ -21,5 +21,9 @@ namespace Twitter.VolumeStream.Implementations
         }
 
         public string BearerToken => _configuration.GetValue<string>(BearerTokenName);
+
+        public string TwitterApiUrlAttributePath => "TwitterApi:EndPoint:Https:Url";
+
+        public string TwitterApiUrl => _configuration.GetValue<string>(TwitterApiUrlAttributePath);
     }
 }

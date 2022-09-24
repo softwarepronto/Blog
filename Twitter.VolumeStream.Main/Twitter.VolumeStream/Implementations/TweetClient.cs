@@ -4,27 +4,31 @@ namespace Twitter.VolumeStream.Implementations
 {
     public class TweetClient : ITweetClient
     {
-        private const string TwitterTweetsStreamUrlV2 = @"https://api.twitter.com/2/tweets/sample/stream?tweet.fields=entities,created_at";
+        private const string VolumeStreamSubUrl = @"/tweets/sample/stream?tweet.fields=entities,created_at";
+
+        private readonly string _twitterTweetsStreamUrlV2;
 
         private readonly ILogger<TweetClient> _logger;
 
         private readonly IServiceProvider _serviceProvider;
 
-        private readonly ITwitterApiEnvironmentConfiguration _twitterApiEnvironmentConfiguration;
+        private readonly ITwitterApiConfiguration _twitterApiConfiguration;
 
         public TweetClient(
                 ILogger<TweetClient> logger,
                 IServiceProvider serviceProvider,
-                ITwitterApiEnvironmentConfiguration twitterApiEnvironmentConfiguration)
+                ITwitterApiConfiguration twitterApiConfiguration)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
-            _twitterApiEnvironmentConfiguration = twitterApiEnvironmentConfiguration;
+            _twitterApiConfiguration = twitterApiConfiguration;
+            _twitterTweetsStreamUrlV2 =
+                _twitterApiConfiguration!.TwitterApiUrl + VolumeStreamSubUrl;
         }
 
         public async Task<ITweetReader> GetAsync()
         {
-            var bearerToken = _twitterApiEnvironmentConfiguration.BearerToken;
+            var bearerToken = _twitterApiConfiguration.BearerToken;
 
             if (bearerToken == null)
             {
@@ -33,7 +37,7 @@ namespace Twitter.VolumeStream.Implementations
 
             HttpClientExtensions.Client.AssignBearerToken(bearerToken);
 
-            var response = await HttpClientExtensions.Client.GetAsync(TwitterTweetsStreamUrlV2, HttpCompletionOption.ResponseHeadersRead);
+            var response = await HttpClientExtensions.Client.GetAsync(_twitterTweetsStreamUrlV2, HttpCompletionOption.ResponseHeadersRead);
 
             response.EnsureSuccessStatusCode();
 

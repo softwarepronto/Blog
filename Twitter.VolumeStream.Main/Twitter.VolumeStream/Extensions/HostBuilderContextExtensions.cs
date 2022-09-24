@@ -14,7 +14,7 @@ namespace Twitter.VolumeStream.Extensions
         {
             var env = hostingContext.HostingEnvironment;
             var appSettingsEnvironmentFilename = Path.ChangeExtension(
-                    AppSettingsFilenameExtension,
+                    AppSettingsFilename,
                     $".{env.EnvironmentName}{AppSettingsFilenameExtension}");
 
             configHost

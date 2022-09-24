@@ -6,10 +6,14 @@ namespace Twitter.VolumeStream.Extensions
     {
         public static void AddTwitterApiServices(this IServiceCollection services)
         {
-            services.AddSingleton<ITwitterApiEnvironmentConfiguration, TwitterApiEnvironmentConfiguration>();
+            services.AddSingleton<ITwitterApiConfiguration, TwitterApiConfiguration>();
             services.AddTransient<ITweetClient, TweetClient>();
-            services.AddTransient<ITweetReader, TweetReader>();
-            services.AddTransient<ITweetHashtagStatistics, TweetHashtagStatistics>();
+            services.AddTransient<Func<Stream, ITweetReader>>((provider) =>
+            {
+                return new Func<Stream, ITweetReader>(
+                    (stream) => new TweetReader(provider.GetService<ILogger<TweetReader>>()!, stream));
+            });
+            services.AddTransient<ITweetHashtagsStatistics, TweetHashtagsStatistics>();
             services.AddTransient<ITweetStatistician, TweetStatistician>();
             services.AddTransient<ITweetStatistics, TweetStatistics>();
             services.AddHostedService<TweetStatisticianWorker>();

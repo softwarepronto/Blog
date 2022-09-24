@@ -2,10 +2,14 @@
 
 namespace Twitter.VolumeStream.Interfaces
 {
-    public interface ITwitterApiEnvironmentConfiguration
+    public interface ITwitterApiConfiguration
     {
         string BearerTokenName { get; }
 
         string BearerToken { get; }
+
+        string TwitterApiUrlAttributePath { get; }
+
+        string TwitterApiUrl { get; }
     }
 }

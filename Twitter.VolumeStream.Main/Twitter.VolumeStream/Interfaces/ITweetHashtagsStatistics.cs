@@ -2,7 +2,7 @@
 
 namespace Twitter.VolumeStream.Interfaces
 {
-    public interface ITweetHashtagStatistics
+    public interface ITweetHashtagsStatistics
     {
         IEnumerable<string> TopHashtags { get; }
 
