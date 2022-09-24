@@ -15,7 +15,7 @@ namespace Twitter.VolumeStream.Extensions
             });
             services.AddTransient<ITweetHashtagsStatistics, TweetHashtagsStatistics>();
             services.AddTransient<ITweetStatistician, TweetStatistician>();
-            services.AddTransient<ITweetStatistics, TweetStatistics>();
+            services.AddSingleton<ITweetStatistics, TweetStatistics>();
             services.AddHostedService<TweetStatisticianWorker>();
         }
 
@@ -23,6 +23,5 @@ namespace Twitter.VolumeStream.Extensions
         {
             services.AddLogging(configure => configure.AddConsole());
         }
-
     }
 }

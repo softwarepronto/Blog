@@ -33,7 +33,7 @@ namespace Twitter.VolumeStream.Implementations
             Interlocked.Increment(ref _totalTweets);
         }
 
-        public void Increment(string[] hashtags)
+        public void Increment(IEnumerable<string> hashtags)
         {
             var currentHashtagCount = 0UL;
 

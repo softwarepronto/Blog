@@ -10,6 +10,6 @@ namespace Twitter.VolumeStream.Interfaces
 
         void Increment();
 
-        void Increment(string[] hashtags);
+        void Increment(IEnumerable<string> hashtags);
     }
 }
