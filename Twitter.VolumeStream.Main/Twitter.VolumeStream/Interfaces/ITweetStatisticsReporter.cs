@@ -4,6 +4,8 @@ namespace Twitter.VolumeStream.Interfaces
 {
     public interface ITweetStatisticsReporter
     {
+        string GetReportText();
+
         void Report();
     }
 }

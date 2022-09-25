@@ -4,7 +4,7 @@ namespace Twitter.VolumeStream.Tests.Implementations
 {
     public class TweetHashtagStatisticsTests
     {
-        private readonly Mock<ILogger<TweetHashtagsStatistics>> _loggerTweetHashtagStatistics =
+        private readonly Mock<ILogger<TweetHashtagsStatistics>> _loggerTweetHashtagStatisticsMock =
                                 new Mock<ILogger<TweetHashtagsStatistics>>();
 
         [Fact]
@@ -13,7 +13,7 @@ namespace Twitter.VolumeStream.Tests.Implementations
             const int MaxNumberOfHashtagInstances = 50;
             var hashtag = "buddy_holly";
             var tweetHashtagStatistics =
-                        new TweetHashtagsStatistics(_loggerTweetHashtagStatistics.Object);
+                        new TweetHashtagsStatistics(_loggerTweetHashtagStatisticsMock.Object);
 
             Assert.Empty(tweetHashtagStatistics.TopHashtags);
             for (var count = 1; count <= MaxNumberOfHashtagInstances; count++)
@@ -29,7 +29,7 @@ namespace Twitter.VolumeStream.Tests.Implementations
             const int MaxNumberOfHashtagInstances = 50;
             var hashtags = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" };
             var tweetHashtagStatistics =
-                        new TweetHashtagsStatistics(_loggerTweetHashtagStatistics.Object);
+                        new TweetHashtagsStatistics(_loggerTweetHashtagStatisticsMock.Object);
 
             Assert.Empty(tweetHashtagStatistics.TopHashtags);
             for (var count = 1; count <= MaxNumberOfHashtagInstances; count++)
@@ -64,7 +64,7 @@ namespace Twitter.VolumeStream.Tests.Implementations
             const int MaxNumberOfHashtagInstances = 50;
             var hashtags = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" };
             var tweetHashtagStatistics =
-                        new TweetHashtagsStatistics(_loggerTweetHashtagStatistics.Object);
+                        new TweetHashtagsStatistics(_loggerTweetHashtagStatisticsMock.Object);
 
             Assert.Empty(tweetHashtagStatistics.TopHashtags);
             for (var count = 1; count <= MaxNumberOfHashtagInstances; count++)

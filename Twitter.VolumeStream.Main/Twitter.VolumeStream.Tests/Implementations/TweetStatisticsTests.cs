@@ -4,19 +4,19 @@ namespace Twitter.VolumeStream.Tests.Implementations
 {
     public class TweetStatisticsTests
     {
-        private readonly Mock<ILogger<TweetHashtagsStatistics>> _loggerTweetHashtagStatistics =
+        private readonly Mock<ILogger<TweetHashtagsStatistics>> _loggerTweetHashtagStatisticsMock =
                                 new Mock<ILogger<TweetHashtagsStatistics>>();
 
-        private readonly Mock<ILogger<TweetStatistics>> _loggerTweetStatistics =
+        private readonly Mock<ILogger<TweetStatistics>> _loggerTweetStatisticsMock =
                                             new Mock<ILogger<TweetStatistics>>();
 
         [Fact]
         public void AddOneTweetTest()
         {
             var tweetHashtagStatistics =
-                        new TweetHashtagsStatistics(_loggerTweetHashtagStatistics.Object);
+                        new TweetHashtagsStatistics(_loggerTweetHashtagStatisticsMock.Object);
             var tweetStatistics = new TweetStatistics(
-                                        _loggerTweetStatistics.Object,
+                                        _loggerTweetStatisticsMock.Object,
                                         tweetHashtagStatistics);
             const ulong MaxNumberOfHashtagInstances = 50;
             var hashtag = "pheonix";
@@ -37,9 +37,9 @@ namespace Twitter.VolumeStream.Tests.Implementations
             const int MaxNumberOfHashtagInstances = 50;
             var hashtags = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" };
             var tweetHashtagStatistics =
-                        new TweetHashtagsStatistics(_loggerTweetHashtagStatistics.Object);
+                        new TweetHashtagsStatistics(_loggerTweetHashtagStatisticsMock.Object);
             var tweetStatistics = new TweetStatistics(
-                                        _loggerTweetStatistics.Object,
+                                        _loggerTweetStatisticsMock.Object,
                                         tweetHashtagStatistics);
             var totalTweets = 0ul;
 
@@ -81,9 +81,9 @@ namespace Twitter.VolumeStream.Tests.Implementations
             const ulong MaxNumberOfHashtagInstances = 50;
             var hashtags = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" };
             var tweetHashtagStatistics =
-                        new TweetHashtagsStatistics(_loggerTweetHashtagStatistics.Object);
+                        new TweetHashtagsStatistics(_loggerTweetHashtagStatisticsMock.Object);
             var tweetStatistics = new TweetStatistics(
-                                        _loggerTweetStatistics.Object,
+                                        _loggerTweetStatisticsMock.Object,
                                         tweetHashtagStatistics);
             var totalTweets = 0ul;
 
