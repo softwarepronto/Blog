@@ -16,7 +16,9 @@ namespace Twitter.VolumeStream.Extensions
             services.AddTransient<ITweetHashtagsStatistics, TweetHashtagsStatistics>();
             services.AddTransient<ITweetStatistician, TweetStatistician>();
             services.AddSingleton<ITweetStatistics, TweetStatistics>();
+            services.AddTransient<ITweetStatisticsReporter, ITweetStatisticsReporter>();
             services.AddHostedService<TweetStatisticianWorker>();
+            services.AddHostedService<TweetStatisticsReporterWorker>();
         }
 
         public static void AddTwitterApiLogging(this IServiceCollection services)

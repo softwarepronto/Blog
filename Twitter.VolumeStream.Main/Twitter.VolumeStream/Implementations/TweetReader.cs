@@ -8,14 +8,13 @@ namespace Twitter.VolumeStream.Implementations
 
         private StreamReader? _streamReader = null;
 
-        private bool _disposedValue;
+        private bool _disposedValue = false;
 
         private readonly ILogger<TweetReader> _logger;
 
         public TweetReader(ILogger<TweetReader> logger, Stream stream)
         {
             _logger = logger;
-            _disposedValue = false;
             _stream = stream;
             _streamReader = new StreamReader(_stream);
         }
