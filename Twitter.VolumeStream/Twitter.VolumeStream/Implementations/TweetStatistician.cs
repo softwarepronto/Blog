@@ -10,9 +10,12 @@ namespace Twitter.VolumeStream.Implementations
 
         private readonly ITweetClient _tweetClient;
 
-        private readonly TweetStatistics _tweetStatistics;
+        private readonly ITweetStatistics _tweetStatistics;
 
-        public TweetStatistician(ILogger<TweetStatistician> logger, ITweetClient tweetClient, TweetStatistics tweetStatistics)
+        public TweetStatistician(
+                    ILogger<TweetStatistician> logger,
+                    ITweetClient tweetClient,
+                    ITweetStatistics tweetStatistics)
         {
             _logger = logger;
             _tweetClient = tweetClient;

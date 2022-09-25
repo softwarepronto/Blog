@@ -4,7 +4,7 @@ namespace Twitter.VolumeStream.Implementations
 {
     public class TweetStatisticsReporterWorker : IHostedService, IDisposable
     {
-        private const int CycleSeconds = 20;
+        private const int CycleSeconds = 60;
 
         private readonly ILogger<TweetStatisticsReporterWorker> _logger;
 
