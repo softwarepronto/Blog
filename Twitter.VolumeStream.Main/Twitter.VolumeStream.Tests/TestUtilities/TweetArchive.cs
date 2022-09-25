@@ -6,7 +6,7 @@ namespace Twitter.VolumeStream.Tests.TestUtilities
     {
         public const string TweetArchiveFolderName = "TweetArchive";
 
-        public static string AssemblyDirectory
+        protected static string AssemblyDirectory
         {
             get
             {
@@ -32,6 +32,7 @@ namespace Twitter.VolumeStream.Tests.TestUtilities
             }
         }
 
-        public string TweetArchiveFolderPath => Path.Combine(AssemblyDirectory, TweetArchiveFolderName);
+        protected static string TweetArchiveFolderPath => 
+                            Path.Combine(AssemblyDirectory, TweetArchiveFolderName);
     }
 }

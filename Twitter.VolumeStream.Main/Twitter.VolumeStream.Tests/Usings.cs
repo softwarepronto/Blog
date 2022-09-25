@@ -10,6 +10,7 @@ global using System;
 global using System.IO;
 global using System.Linq;
 global using System.Reflection;
+global using System.Text.Json;
 global using Twitter.VolumeStream.Extensions;
 global using Twitter.VolumeStream.Models;
 global using Twitter.VolumeStream.Implementations;

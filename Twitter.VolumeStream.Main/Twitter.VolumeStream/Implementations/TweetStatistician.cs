@@ -4,7 +4,7 @@ namespace Twitter.VolumeStream.Implementations
 {
     public class TweetStatistician : ITweetStatistician
     {
-        private const string ContainsHashtagMarker = "\"hashtags\":";
+        public const string ContainsHashtagMarker = "\"hashtags\":";
 
         private readonly ILogger<TweetStatistician> _logger;
 
@@ -42,8 +42,7 @@ namespace Twitter.VolumeStream.Implementations
                         continue; // warning
                     }
 
-
-                    _tweetStatistics.Increment(root.data.entities.hashtags.Select(h => h.tag));
+                    _tweetStatistics.Increment(root.data.entities.GetHashtagNames());
                 }
 
                 else

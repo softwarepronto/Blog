@@ -85,6 +85,8 @@ namespace Twitter.VolumeStream.Implementations
                         {
                             hashtagCount.Overwrite(hashtag, count);
                             Interlocked.Exchange(ref _topHashTags[i], hashtag);
+
+                            break;
                         }
                     }
 

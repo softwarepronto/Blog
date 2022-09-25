@@ -8,14 +8,14 @@ namespace Twitter.VolumeStream.Implementations
 
         private readonly Dictionary<string, ulong> _hashTagCounts = new Dictionary<string, ulong>();
 
-        private readonly TweetHashtagsStatistics _topHashtagStatistics;
+        private readonly ITweetHashtagsStatistics _tweetHashtagStatistics;
 
         private readonly ILogger<TweetStatistics> _logger;
 
-        public TweetStatistics(ILogger<TweetStatistics> logger, IServiceProvider services)
+        public TweetStatistics(ILogger<TweetStatistics> logger, ITweetHashtagsStatistics tweetHashtagStatistics)
         {
             _logger = logger;
-            _topHashtagStatistics = services.GetRequiredService<TweetHashtagsStatistics>();
+            _tweetHashtagStatistics = tweetHashtagStatistics;
         }
 
         public ulong TotalTweets
@@ -26,7 +26,7 @@ namespace Twitter.VolumeStream.Implementations
             }
         }
 
-        public IEnumerable<string> TopHashtags => _topHashtagStatistics.TopHashtags;
+        public IEnumerable<string> TopHashtags => _tweetHashtagStatistics.TopHashtags;
 
         public void Increment()
         {
@@ -51,7 +51,7 @@ namespace Twitter.VolumeStream.Implementations
                     currentHashtagCount = 1;
                 }
 
-                _topHashtagStatistics.Add(hashtag, currentHashtagCount);
+                _tweetHashtagStatistics.Add(hashtag, currentHashtagCount);
             }
         }
     }

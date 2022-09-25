@@ -24,17 +24,49 @@ namespace Twitter.VolumeStream.Tests.TestUtilities
 
         private bool _disposedValue;
 
-        public TweetArchiveReader()
-        {
-            var filePath = Path.Combine(TweetArchiveFolderPath, Tweets20220917092751);
+        private readonly ushort _duplicateCount;
 
+        private string? _tweetJason = String.Empty;
+
+        private ushort _numberOfDuplicates = 0;
+
+        public TweetArchiveReader(ushort duplicateCount = 0)
+        {
+            FilePath = Path.Combine(TweetArchiveFolderPath, Tweets20220917092751);
             _disposedValue = false;
-            _streamReader = new StreamReader(filePath);
+            _duplicateCount = duplicateCount;
+            _streamReader = new StreamReader(FilePath);
         }
+
+
+        public string FilePath { get; }
 
         public async Task<string?> ReadLineAsync()
         {
-            return await _streamReader!.ReadLineAsync();
+            if (_duplicateCount == 0)
+            {
+                return await _streamReader!.ReadLineAsync();
+            }
+
+            else
+            {
+                if ((_numberOfDuplicates == 0) || (_numberOfDuplicates == _duplicateCount))
+                {
+                    var result = await _streamReader!.ReadLineAsync();
+
+                    _numberOfDuplicates = 1;
+                    _tweetJason = result;
+
+                    return result;
+                }
+
+                else
+                {
+                    _numberOfDuplicates++;
+
+                    return _tweetJason;
+                }
+            }
         }
 
         protected virtual void Dispose(bool disposing)
