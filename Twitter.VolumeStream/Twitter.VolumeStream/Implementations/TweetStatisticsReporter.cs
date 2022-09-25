@@ -27,8 +27,6 @@ namespace Twitter.VolumeStream.Implementations
         public void Report()
         {
             _logger.LogInformation("Tweet statitics reported");
-
-
             Console.WriteLine(GetReportText());
         }
     }
