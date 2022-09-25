@@ -18,6 +18,7 @@ namespace Twitter.VolumeStream.Implementations
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _logger.LogInformation($"Invoking {nameof(ExecuteAsync)}");
             await _tweetStatistics.GenerateAsync(stoppingToken);
         }
     }

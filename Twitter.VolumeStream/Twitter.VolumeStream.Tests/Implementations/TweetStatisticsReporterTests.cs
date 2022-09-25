@@ -35,12 +35,14 @@ namespace Twitter.VolumeStream.Tests.Implementations
         }
 
         [Fact]
-        public void GetReportTextTest()
+        public void ReportTest()
         {
             var tweetStatisticsMock = new Mock<ITweetStatistics>();
             var totalTweets = 0ul;
             var hashtags = new List<string>();
             var hashtagCandidates = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' };
+            var reportText = string.Empty;
+            var reporter = new Action<string>((r) => { reportText = r; });
             const int hashTagLength = 12;
 
             tweetStatisticsMock.SetupGet(m => m.TotalTweets).Returns(() => { return totalTweets; });
@@ -49,8 +51,8 @@ namespace Twitter.VolumeStream.Tests.Implementations
             var tweetStatisticsReporter = new TweetStatisticsReporter(
                                                 _loggerTweetStatisticsReporterMock.Object,
                                                 tweetStatisticsMock.Object);
-            var reportText = tweetStatisticsReporter.GetReportText();
 
+            tweetStatisticsReporter.Report(reporter);
             Assert.Equal(totalTweets, GetTotalTweets(reportText));
             Assert.Equal((ulong)hashtags.Count, GetHashtagCounts(reportText));
             foreach (var hashtag in hashtags)
@@ -62,7 +64,7 @@ namespace Twitter.VolumeStream.Tests.Implementations
             {
                 totalTweets += 5ul;
                 hashtags.Add(new string(hashtagCandidate, hashTagLength));
-                reportText = tweetStatisticsReporter.GetReportText();
+                tweetStatisticsReporter.Report(reporter);
                 Assert.Equal(totalTweets, GetTotalTweets(reportText));
                 Assert.Equal((ulong)hashtags.Count, GetHashtagCounts(reportText));
                 foreach (var hashtag in hashtags)

@@ -36,7 +36,7 @@ namespace Twitter.VolumeStream.Implementations
         private void PerformWork(object? state)
         {
             _logger.LogInformation("Tweet Statistics Reporter Service performing work.");
-            _tweetStatisticsReporter.Report();
+            _tweetStatisticsReporter.Report((reportText) => { Console.WriteLine(reportText); });
         }
 
         public Task StopAsync(CancellationToken stoppingToken)

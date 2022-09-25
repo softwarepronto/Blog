@@ -19,9 +19,10 @@ namespace Twitter.VolumeStream.Implementations
             _streamReader = new StreamReader(_stream);
         }
 
-
         public async Task<string?> ReadLineAsync()
         {
+            _logger.LogInformation("ReadLineAsync");
+
             return await _streamReader!.ReadLineAsync();
         }
 

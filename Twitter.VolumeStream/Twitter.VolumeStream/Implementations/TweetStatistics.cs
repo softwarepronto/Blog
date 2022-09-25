@@ -30,6 +30,7 @@ namespace Twitter.VolumeStream.Implementations
 
         public void Increment()
         {
+            _logger.LogInformation($"Invoking {nameof(Increment)}(current={_totalTweets}, next={_totalTweets + 1ul}");
             Interlocked.Increment(ref _totalTweets);
         }
 
@@ -38,6 +39,7 @@ namespace Twitter.VolumeStream.Implementations
             var currentHashtagCount = 0UL;
 
             Increment();
+            _logger.LogInformation($"Invoking {nameof(Increment)} hashtags={string.Join(',', hashtags)}");
             foreach (var hashtag in hashtags)
             {
                 if (_hashTagCounts.ContainsKey(hashtag))

@@ -21,7 +21,8 @@ namespace Twitter.VolumeStream.Implementations
 
         public async Task GenerateAsync(CancellationToken stoppingToken)
         {
-            var hashtags = new StringBuilder();
+            _logger.LogInformation($"Invoking {nameof(GenerateAsync)}");
+
             using var tweetReader = await _tweetClient.GetAsync();
 
             while (!(stoppingToken.IsCancellationRequested))

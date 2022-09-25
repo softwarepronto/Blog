@@ -16,7 +16,7 @@ namespace Twitter.VolumeStream.Implementations
             _tweetStatistics = tweetStatistics;
         }
 
-        public string GetReportText()
+        private string GetReportText()
         {
             var hashtagsText = string.Join(",", _tweetStatistics.TopHashtags);
 
@@ -24,10 +24,10 @@ namespace Twitter.VolumeStream.Implementations
                    $"Top {_tweetStatistics.TopHashtags.Count()} hashtags {hashtagsText}";
         }
 
-        public void Report()
+        public void Report(Action<string> reporter)
         {
             _logger.LogInformation("Tweet statitics reported");
-            Console.WriteLine(GetReportText());
+            reporter(GetReportText());
         }
     }
 }

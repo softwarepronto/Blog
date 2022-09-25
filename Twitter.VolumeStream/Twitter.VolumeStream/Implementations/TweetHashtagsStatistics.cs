@@ -58,11 +58,13 @@ namespace Twitter.VolumeStream.Implementations
 
         private void UpadateLeastMostPopularHashtagCount()
         {
+            _logger.LogInformation("UpadateLeastMostPopularHashtagCount");
             _leastMostPopularHashtagCount = _topHashtagStatistics.Where(hs => hs != null).Min(hs => hs.Count);
         }
 
         public void Add(string hashtag, ulong count)
         {
+            _logger.LogInformation($"Add(hashtag={hashtag}, count={count})");
             if (count <= _leastMostPopularHashtagCount)
             {
                 return;
