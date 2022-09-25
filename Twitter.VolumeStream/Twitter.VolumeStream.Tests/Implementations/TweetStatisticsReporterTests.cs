@@ -38,10 +38,12 @@ namespace Twitter.VolumeStream.Tests.Implementations
         public void GetReportTextTest()
         {
             var tweetStatisticsMock = new Mock<ITweetStatistics>();
-            var totalTweels = 0ul;
-            var hashtags = new string[0];
+            var totalTweets = 0ul;
+            var hashtags = new List<string>();
+            var hashtagCandidates = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' };
+            const int hashTagLength = 12;
 
-            tweetStatisticsMock.SetupGet(m => m.TotalTweets).Returns(totalTweels);
+            tweetStatisticsMock.SetupGet(m => m.TotalTweets).Returns(() => { return totalTweets; });
             tweetStatisticsMock.SetupGet(m => m.TopHashtags).Returns(hashtags);
 
             var tweetStatisticsReporter = new TweetStatisticsReporter(
@@ -49,11 +51,24 @@ namespace Twitter.VolumeStream.Tests.Implementations
                                                 tweetStatisticsMock.Object);
             var reportText = tweetStatisticsReporter.GetReportText();
 
-            Assert.Equal(totalTweels, GetTotalTweets(reportText));
-            Assert.Equal((ulong)hashtags.Length, GetHashtagCounts(reportText));
+            Assert.Equal(totalTweets, GetTotalTweets(reportText));
+            Assert.Equal((ulong)hashtags.Count, GetHashtagCounts(reportText));
             foreach (var hashtag in hashtags)
             {
-                Assert.True(reportText.Contains(hashtag));
+                Assert.Contains(hashtag, reportText);
+            }
+
+            foreach (var hashtagCandidate in hashtagCandidates)
+            {
+                totalTweets += 5ul;
+                hashtags.Add(new string(hashtagCandidate, hashTagLength));
+                reportText = tweetStatisticsReporter.GetReportText();
+                Assert.Equal(totalTweets, GetTotalTweets(reportText));
+                Assert.Equal((ulong)hashtags.Count, GetHashtagCounts(reportText));
+                foreach (var hashtag in hashtags)
+                {
+                    Assert.Contains(hashtag, reportText);
+                }
             }
         }
     }
