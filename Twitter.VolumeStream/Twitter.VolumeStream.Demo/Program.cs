@@ -6,7 +6,6 @@ try
         services =>
         {
             services.AddTwitterApiServices();
-            services.AddTwitterApiLogging();
         })
         .ConfigureHostConfiguration(configurationHost =>
         {
@@ -15,6 +14,9 @@ try
         .ConfigureAppConfiguration((hostingContext, configurationApp) =>
         {
             hostingContext.AddTwitterApiAppConfiguration(configurationApp);
+        }).ConfigureLogging((hostingContext, logging) =>
+        {
+            logging.AddTwitterApiLogging(hostingContext);
         })
         .Build();
 

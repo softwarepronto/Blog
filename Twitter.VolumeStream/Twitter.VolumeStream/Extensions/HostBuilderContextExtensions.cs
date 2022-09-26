@@ -20,6 +20,7 @@ namespace Twitter.VolumeStream.Extensions
             configHost
                 .AddJsonFile(AppSettingsFilename, optional: true, reloadOnChange: true)
                 .AddJsonFile(appSettingsEnvironmentFilename, true, true);
+
         }
     }
 }

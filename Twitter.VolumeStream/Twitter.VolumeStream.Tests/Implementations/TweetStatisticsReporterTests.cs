@@ -7,7 +7,7 @@ namespace Twitter.VolumeStream.Tests.Implementations
         private readonly Mock<ILogger<TweetStatisticsReporter>> _loggerTweetStatisticsReporterMock =
                                 new Mock<ILogger<TweetStatisticsReporter>>();
 
-        const string StartTotalTweetsMarker = ": ";
+        const string StartTotalTweetsMarker = "Total tweets: ";
 
         const string EndTotalTweetsMarker = ",";
 
@@ -38,21 +38,23 @@ namespace Twitter.VolumeStream.Tests.Implementations
         public void ReportTest()
         {
             var tweetStatisticsMock = new Mock<ITweetStatistics>();
+            var reportSourceMock = new Mock<IReportSource>();
             var totalTweets = 0ul;
             var hashtags = new List<string>();
             var hashtagCandidates = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' };
             var reportText = string.Empty;
-            var reporter = new Action<string>((r) => { reportText = r; });
             const int hashTagLength = 12;
 
             tweetStatisticsMock.SetupGet(m => m.TotalTweets).Returns(() => { return totalTweets; });
             tweetStatisticsMock.SetupGet(m => m.TopHashtags).Returns(hashtags);
+            reportSourceMock.Setup(m => m.Write(It.IsAny<string>())).Callback<string>(r => reportText = r);
 
             var tweetStatisticsReporter = new TweetStatisticsReporter(
                                                 _loggerTweetStatisticsReporterMock.Object,
-                                                tweetStatisticsMock.Object);
+                                                tweetStatisticsMock.Object,
+                                                reportSourceMock.Object);
 
-            tweetStatisticsReporter.Report(reporter);
+            tweetStatisticsReporter.Report();
             Assert.Equal(totalTweets, GetTotalTweets(reportText));
             Assert.Equal((ulong)hashtags.Count, GetHashtagCounts(reportText));
             foreach (var hashtag in hashtags)
@@ -64,7 +66,7 @@ namespace Twitter.VolumeStream.Tests.Implementations
             {
                 totalTweets += 5ul;
                 hashtags.Add(new string(hashtagCandidate, hashTagLength));
-                tweetStatisticsReporter.Report(reporter);
+                tweetStatisticsReporter.Report();
                 Assert.Equal(totalTweets, GetTotalTweets(reportText));
                 Assert.Equal((ulong)hashtags.Count, GetHashtagCounts(reportText));
                 foreach (var hashtag in hashtags)

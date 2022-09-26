@@ -4,7 +4,7 @@ namespace Twitter.VolumeStream.Implementations
 {
     public class TweetStatisticsReporterWorker : IHostedService, IDisposable
     {
-        private const int CycleSeconds = 60;
+        private const int CycleSeconds = 10;
 
         private readonly ILogger<TweetStatisticsReporterWorker> _logger;
 
@@ -36,7 +36,7 @@ namespace Twitter.VolumeStream.Implementations
         private void PerformWork(object? state)
         {
             _logger.LogInformation("Tweet Statistics Reporter Service performing work.");
-            _tweetStatisticsReporter.Report((reportText) => { Console.WriteLine(reportText); });
+            _tweetStatisticsReporter.Report();
         }
 
         public Task StopAsync(CancellationToken stoppingToken)

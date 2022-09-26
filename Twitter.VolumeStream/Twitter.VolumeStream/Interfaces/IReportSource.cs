@@ -2,8 +2,8 @@
 
 namespace Twitter.VolumeStream.Interfaces
 {
-    public interface ITweetStatisticsReporter
+    public interface IReportSource
     {
-        void Report();
+        void Write(string output);
     }
 }

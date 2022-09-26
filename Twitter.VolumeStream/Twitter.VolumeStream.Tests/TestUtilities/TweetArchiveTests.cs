@@ -26,7 +26,6 @@ namespace Twitter.VolumeStream.Tests.TestUtilities
                     Assert.True(root!.data.entities.GetHashtagNames().Any());
                 }
 
-                Console.WriteLine($"Tweet number {count}");
                 count++;
             }
 
